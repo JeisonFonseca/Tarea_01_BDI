@@ -1,7 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using Tarea_1.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+/**
+ * Inyeccion de dependencias
+ */
+builder.Services.AddDbContext<Tarea_1Context>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Tarea_1Context"));
+});
 
 var app = builder.Build();
 
