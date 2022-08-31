@@ -15,7 +15,8 @@ namespace Tarea_1.Controllers
 
         public async Task <IActionResult> Index()
         {
-            return View(await _context.Softwares.ToListAsync());
+            var encargadoDepartamento = _context.ManagerDepartamentos.Include(e=>e.CodigoDepartamento);
+            return View(await _context.Softwares.ToListAsync()); // Aqui quiero meter el encargadoDepartamento para mostrarlo en la vista
         }
     }
 }
