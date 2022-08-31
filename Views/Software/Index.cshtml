@@ -1,0 +1,30 @@
+﻿@model List<Tarea_1.Models.Software>
+
+<hi>Softwares</hi>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Cod del software</th>
+			<th>Numero patente</th>
+			<th>Nombre</th>
+			<th>Descripcion</th>
+			<th>Tipo del software</th>
+			<th>Fecha puesta en produccion</th>
+			<th>Fecha expiración licencia</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var software in Model)
+		{
+			<tr>
+				<td>@Html.DisplayFor(m=>software.CodigoSoftware)</td>
+				<td>@Html.DisplayFor(m=>software.NumeroPatente)</td>
+				<td>@Html.DisplayFor(m=>software.Nombre)</td>
+				<td>@Html.DisplayFor(m=>software.Descripción)</td>
+				<td>@Html.DisplayFor(m=>software.TipoSoftware)</td>
+				<td>@Html.DisplayFor(m=>software.FechaPuestaProducción)</td>
+				<td>@Html.DisplayFor(m=>software.FechaExpiraciónLicencia)</td>
+			</tr>
+		}
+	</tbody>
+</table>
