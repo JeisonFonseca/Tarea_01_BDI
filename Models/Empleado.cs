@@ -11,4 +11,6 @@ namespace Tarea_1.Models
         public string Apelllido2 { get; set; } = null!;
         public string Rol { get; set; } = null!;
     }
+
+
 }

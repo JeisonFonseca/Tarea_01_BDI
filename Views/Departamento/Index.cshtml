@@ -1,0 +1,28 @@
+﻿@model List<Tarea_1.Models.Departamento>
+
+
+<hi>Departamentos</hi>
+
+<p>
+	<a asp-action="Create">Crear </a>
+</p>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Codigo del departamento</th>
+			<th>Nombre</th>
+			<th>Id manager</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var departamento in Model)
+		{
+			<tr>
+				<td>@Html.DisplayFor(m=>departamento.CodigoDepartamento)</td>
+				<td>@Html.DisplayFor(m=>departamento.Nombre)</td>
+				<!--Aqui deberia ir el id del manager  -->
+			</tr>
+		}
+	</tbody>
+</table>
