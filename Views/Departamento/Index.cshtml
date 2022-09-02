@@ -1,4 +1,4 @@
-﻿@model List<Tarea_1.Models.Departamento>
+﻿@model List<Tarea_1.Models.DepartamentoManagerView>
 
 
 <hi>Departamentos</hi>
@@ -21,7 +21,7 @@
 			<tr>
 				<td>@Html.DisplayFor(m=>departamento.CodigoDepartamento)</td>
 				<td>@Html.DisplayFor(m=>departamento.Nombre)</td>
-				<!--Aqui deberia ir el id del manager  -->
+				<td>@Html.DisplayFor(m=>departamento.NombreEmpleado)</td>
 			</tr>
 		}
 	</tbody>

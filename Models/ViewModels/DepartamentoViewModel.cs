@@ -9,5 +9,8 @@ namespace Tarea_1.Models.ViewModels
 
 		[Required]
 		public string Nombre { get; set; }
+
+		[Required]
+		public string Encargado { get; set; }
 	}
 }

@@ -17,6 +17,7 @@ namespace Tarea_1.Models
         }
 
         public virtual DbSet<Departamento> Departamentos { get; set; } = null!;
+        public virtual DbSet<DepartamentoManagerView> DepartamentoManagerViews { get; set; } = null!;
         public virtual DbSet<Empleado> Empleados { get; set; } = null!;
         public virtual DbSet<EmpleadoDepartamento> EmpleadoDepartamentos { get; set; } = null!;
         public virtual DbSet<EmpleadoProyecto> EmpleadoProyectos { get; set; } = null!;
@@ -53,6 +54,29 @@ namespace Tarea_1.Models
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(25)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<DepartamentoManagerView>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("departamentoManagerView");
+
+                entity.Property(e => e.CedulaEmpleadoManager)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("Cedula_empleado_manager");
+
+                entity.Property(e => e.CodigoDepartamento).HasColumnName("Codigo_departamento");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NombreEmpleado)
+                    .HasMaxLength(25)
+                    .IsUnicode(false)
+                    .HasColumnName("nombreEmpleado");
             });
 
             modelBuilder.Entity<Empleado>(entity =>
@@ -165,7 +189,8 @@ namespace Tarea_1.Models
 
             modelBuilder.Entity<ManagerDepartamento>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => new { e.CedulaEmpleadoManager, e.CodigoDepartamento })
+                    .HasName("PK__Manager___5A39C0C80B3DF2C8");
 
                 entity.ToTable("Manager_Departamento");
 
@@ -175,18 +200,6 @@ namespace Tarea_1.Models
                     .HasColumnName("Cedula_empleado_manager");
 
                 entity.Property(e => e.CodigoDepartamento).HasColumnName("Codigo_departamento");
-
-                entity.HasOne(d => d.CedulaEmpleadoManagerNavigation)
-                    .WithMany()
-                    .HasForeignKey(d => d.CedulaEmpleadoManager)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Manager_D__Cedul__440B1D61");
-
-                entity.HasOne(d => d.CodigoDepartamentoNavigation)
-                    .WithMany()
-                    .HasForeignKey(d => d.CodigoDepartamento)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Manager_D__Codig__44FF419A");
             });
 
             modelBuilder.Entity<ManagerSoftware>(entity =>

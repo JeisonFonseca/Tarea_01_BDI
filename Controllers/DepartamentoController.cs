@@ -16,7 +16,7 @@ namespace Tarea_1.Controllers
 
 		public async Task<IActionResult> Index()
         {
-            return View(await _context.Departamentos.ToListAsync()); // Aqui quiero meter el encargadoDepartamento para mostrarlo en la vista
+            return View(await _context.DepartamentoManagerViews.ToListAsync()); // Aqui quiero meter el encargadoDepartamento para mostrarlo en la vista
         }
 
         public IActionResult Create()
@@ -36,7 +36,14 @@ namespace Tarea_1.Controllers
                     CodigoDepartamento = model.CodigoDepartamento,
                     Nombre = model.Nombre,
                 };
+
+                var managerDepartamento = new ManagerDepartamento()
+                {
+                    CodigoDepartamento = model.CodigoDepartamento,
+                    CedulaEmpleadoManager = model.Encargado
+                };
                 _context.Add(departamento);
+                _context.Add(managerDepartamento);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
