@@ -1,0 +1,36 @@
+﻿@model List<Tarea_1.Models.ProyectoCorreción>
+
+
+<hi>Proyectos de corrección</hi>
+
+<p>
+	<a asp-action="Create">Crear </a>
+</p>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Identificador</th>
+			<th>Error</th>
+			<th>Nombre</th>
+			<th>Fecha inicio</th>
+			<th>Fecha finalización</th>
+			<th>Esfuerzo estimado</th>
+			<th>Esfuerzo real</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var proyecto in Model)
+		{
+			<tr>
+				<td>@Html.DisplayFor(m=>proyecto.Identificador)</td>
+				<td>@Html.DisplayFor(m=>proyecto.Error)</td>
+				<td>@Html.DisplayFor(m=>proyecto.Nombre)</td>
+				<td>@Html.DisplayFor(m=>proyecto.FechaInicio)</td>
+				<td>@Html.DisplayFor(m=>proyecto.FechaFinalización)</td>
+				<td>@Html.DisplayFor(m=>proyecto.EsfuerzoEstimado)</td>
+				<td>@Html.DisplayFor(m=>proyecto.EsfuerzoReal)</td>
+			</tr>
+		}
+	</tbody>
+</table>

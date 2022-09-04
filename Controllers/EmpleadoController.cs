@@ -19,14 +19,9 @@ namespace Tarea_1.Controllers
             return View(await _context.Empleados.ToListAsync()); // Aqui quiero meter el encargadoDepartamento para mostrarlo en la vista
         }
 
-        public IActionResult Create()
-        {
-            // ViewData["Message"] =
-            return View();
-        }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(EmpleadoViewModel model)
         {
             if (ModelState.IsValid)
@@ -43,7 +38,7 @@ namespace Tarea_1.Controllers
                 await _context.SaveChangesAsync();
                 return  RedirectToAction(nameof(Index));
             }
-            // ViewData["Message"] =
+            
             return View(model);
         }
 

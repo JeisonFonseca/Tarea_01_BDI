@@ -1,0 +1,32 @@
+﻿@model List<Tarea_1.Models.ErrorDeProducción>
+
+
+<hi>Error de producción</hi>
+
+<p>
+	<a asp-action="Create">Crear </a>
+</p>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Identificador</th>
+			<th>Código del software</th>
+			<th>Descripción</th>
+			<th>Fecha y hora</th>
+			<th>Impacto</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var error in Model)
+		{
+			<tr>
+				<td>@Html.DisplayFor(m=>error.Identificador)</td>
+				<td>@Html.DisplayFor(m=>error.Software)</td>
+				<td>@Html.DisplayFor(m=>error.Descripcion)</td>
+				<td>@Html.DisplayFor(m=>error.FechaHora)</td>
+				<td>@Html.DisplayFor(m=>error.Impacto)</td>
+			</tr>
+		}
+	</tbody>
+</table>
