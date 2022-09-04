@@ -12,5 +12,7 @@ namespace Tarea_1.Models
         public double CapacidadProcesamiento { get; set; }
         public int CapacidadAlmacenamiento { get; set; }
         public int MemoriaRam { get; set; }
+
+        public virtual ServidorProyecto ServidorProyecto { get; set; } = null!;
     }
 }

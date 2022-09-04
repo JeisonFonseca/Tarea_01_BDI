@@ -20,7 +20,6 @@ namespace Tarea_1.Models
         public virtual DbSet<DepartamentoManagerView> DepartamentoManagerViews { get; set; } = null!;
         public virtual DbSet<Empleado> Empleados { get; set; } = null!;
         public virtual DbSet<EmpleadoDepartamento> EmpleadoDepartamentos { get; set; } = null!;
-        public virtual DbSet<EmpleadoProyecto> EmpleadoProyectos { get; set; } = null!;
         public virtual DbSet<ErrorDeProducción> ErrorDeProduccións { get; set; } = null!;
         public virtual DbSet<ManagerDepartamento> ManagerDepartamentos { get; set; } = null!;
         public virtual DbSet<ManagerSoftware> ManagerSoftwares { get; set; } = null!;
@@ -28,6 +27,7 @@ namespace Tarea_1.Models
         public virtual DbSet<Servidor> Servidors { get; set; } = null!;
         public virtual DbSet<ServidorProyecto> ServidorProyectos { get; set; } = null!;
         public virtual DbSet<Software> Softwares { get; set; } = null!;
+        public virtual DbSet<SoftwaresView> SoftwaresViews { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -105,11 +105,29 @@ namespace Tarea_1.Models
                 entity.Property(e => e.Rol)
                     .HasMaxLength(25)
                     .IsUnicode(false);
+
+                entity.HasMany(d => d.NumeroProyectos)
+                    .WithMany(p => p.CedulaEmpleados)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "EmpleadoProyecto",
+                        l => l.HasOne<ProyectoCorreción>().WithMany().HasForeignKey("NumeroProyecto").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Empleado___Numer__03F0984C"),
+                        r => r.HasOne<Empleado>().WithMany().HasForeignKey("CedulaEmpleado").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Empleado___Cedul__02FC7413"),
+                        j =>
+                        {
+                            j.HasKey("CedulaEmpleado", "NumeroProyecto").HasName("PK__Empleado__2FAF84CEFE6E6962");
+
+                            j.ToTable("Empleado_proyecto");
+
+                            j.IndexerProperty<string>("CedulaEmpleado").HasMaxLength(10).IsUnicode(false).HasColumnName("Cedula_empleado");
+
+                            j.IndexerProperty<int>("NumeroProyecto").HasColumnName("Numero_proyecto");
+                        });
             });
 
             modelBuilder.Entity<EmpleadoDepartamento>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.CedulaEmpleado)
+                    .HasName("PK__Empleado__F18B58290FEB8FC6");
 
                 entity.ToTable("Empleado_departamento");
 
@@ -121,42 +139,16 @@ namespace Tarea_1.Models
                 entity.Property(e => e.CodigoDepartamento).HasColumnName("Codigo_departamento");
 
                 entity.HasOne(d => d.CedulaEmpleadoNavigation)
-                    .WithMany()
-                    .HasForeignKey(d => d.CedulaEmpleado)
+                    .WithOne(p => p.EmpleadoDepartamento)
+                    .HasForeignKey<EmpleadoDepartamento>(d => d.CedulaEmpleado)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Empleado___Cedul__412EB0B6");
+                    .HasConstraintName("FK__Empleado___Cedul__6E01572D");
 
                 entity.HasOne(d => d.CodigoDepartamentoNavigation)
-                    .WithMany()
+                    .WithMany(p => p.EmpleadoDepartamentos)
                     .HasForeignKey(d => d.CodigoDepartamento)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Empleado___Codig__4222D4EF");
-            });
-
-            modelBuilder.Entity<EmpleadoProyecto>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("Empleado_proyecto");
-
-                entity.Property(e => e.CedulaEmpleado)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("Cedula_empleado");
-
-                entity.Property(e => e.NumeroProyecto).HasColumnName("Numero_proyecto");
-
-                entity.HasOne(d => d.CedulaEmpleadoNavigation)
-                    .WithMany()
-                    .HasForeignKey(d => d.CedulaEmpleado)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Empleado___Cedul__3B75D760");
-
-                entity.HasOne(d => d.NumeroProyectoNavigation)
-                    .WithMany()
-                    .HasForeignKey(d => d.NumeroProyecto)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Empleado___Numer__3C69FB99");
+                    .HasConstraintName("FK__Empleado___Codig__6C190EBB");
             });
 
             modelBuilder.Entity<ErrorDeProducción>(entity =>
@@ -189,40 +181,57 @@ namespace Tarea_1.Models
 
             modelBuilder.Entity<ManagerDepartamento>(entity =>
             {
-                entity.HasKey(e => new { e.CedulaEmpleadoManager, e.CodigoDepartamento })
-                    .HasName("PK__Manager___5A39C0C80B3DF2C8");
+                entity.HasKey(e => e.CodigoDepartamento)
+                    .HasName("PK__Manager___60D0E07974A93BD9");
 
                 entity.ToTable("Manager_Departamento");
+
+                entity.Property(e => e.CodigoDepartamento)
+                    .ValueGeneratedNever()
+                    .HasColumnName("Codigo_departamento");
 
                 entity.Property(e => e.CedulaEmpleadoManager)
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .HasColumnName("Cedula_empleado_manager");
 
-                entity.Property(e => e.CodigoDepartamento).HasColumnName("Codigo_departamento");
+                entity.HasOne(d => d.CedulaEmpleadoManagerNavigation)
+                    .WithMany(p => p.ManagerDepartamentos)
+                    .HasForeignKey(d => d.CedulaEmpleadoManager)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Manager_D__Cedul__628FA481");
+
+                entity.HasOne(d => d.CodigoDepartamentoNavigation)
+                    .WithOne(p => p.ManagerDepartamento)
+                    .HasForeignKey<ManagerDepartamento>(d => d.CodigoDepartamento)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Manager_D__Codig__6383C8BA");
             });
 
             modelBuilder.Entity<ManagerSoftware>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.CodigoSoftware)
+                    .HasName("PK__Manager___E57790F997BB7C39");
 
                 entity.ToTable("Manager_Software");
 
+                entity.Property(e => e.CodigoSoftware)
+                    .ValueGeneratedNever()
+                    .HasColumnName("Codigo_software");
+
                 entity.Property(e => e.CodigoDepartamento).HasColumnName("Codigo_departamento");
 
-                entity.Property(e => e.CodigoSoftware).HasColumnName("Codigo_software");
-
                 entity.HasOne(d => d.CodigoDepartamentoNavigation)
-                    .WithMany()
+                    .WithMany(p => p.ManagerSoftwares)
                     .HasForeignKey(d => d.CodigoDepartamento)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Manager_S__Codig__47DBAE45");
+                    .HasConstraintName("FK__Manager_S__Codig__7D439ABD");
 
                 entity.HasOne(d => d.CodigoSoftwareNavigation)
-                    .WithMany()
-                    .HasForeignKey(d => d.CodigoSoftware)
+                    .WithOne(p => p.ManagerSoftware)
+                    .HasForeignKey<ManagerSoftware>(d => d.CodigoSoftware)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Manager_S__Codig__49C3F6B7");
+                    .HasConstraintName("FK__Manager_S__Codig__7F2BE32F");
             });
 
             modelBuilder.Entity<ProyectoCorreción>(entity =>
@@ -293,27 +302,30 @@ namespace Tarea_1.Models
 
             modelBuilder.Entity<ServidorProyecto>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.NumeroSerieServidor)
+                    .HasName("PK__Servidor__BA3EF0ABE0E506EF");
 
                 entity.ToTable("Servidor_proyecto");
 
-                entity.Property(e => e.NumeroSerieServidor).HasColumnName("Numero_serie_servidor");
+                entity.Property(e => e.NumeroSerieServidor)
+                    .ValueGeneratedNever()
+                    .HasColumnName("Numero_serie_servidor");
 
                 entity.Property(e => e.Rol)
                     .HasMaxLength(40)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.CodigoSoftwareNavigation)
-                    .WithMany()
+                    .WithMany(p => p.ServidorProyectos)
                     .HasForeignKey(d => d.CodigoSoftware)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Servidor___Codig__30F848ED");
+                    .HasConstraintName("FK__Servidor___Codig__08B54D69");
 
                 entity.HasOne(d => d.NumeroSerieServidorNavigation)
-                    .WithMany()
-                    .HasForeignKey(d => d.NumeroSerieServidor)
+                    .WithOne(p => p.ServidorProyecto)
+                    .HasForeignKey<ServidorProyecto>(d => d.NumeroSerieServidor)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Servidor___Numer__2F10007B");
+                    .HasConstraintName("FK__Servidor___Numer__06CD04F7");
             });
 
             modelBuilder.Entity<Software>(entity =>
@@ -342,6 +354,47 @@ namespace Tarea_1.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.NumeroPatente).HasColumnName("Numero_patente");
+
+                entity.Property(e => e.TipoSoftware)
+                    .HasMaxLength(40)
+                    .IsUnicode(false)
+                    .HasColumnName("Tipo_software");
+            });
+
+            modelBuilder.Entity<SoftwaresView>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("softwaresView");
+
+                entity.Property(e => e.Descripción)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FechaExpiraciónLicencia)
+                    .HasColumnType("date")
+                    .HasColumnName("Fecha_expiración_licencia");
+
+                entity.Property(e => e.FechaPuestaProducción)
+                    .HasColumnType("date")
+                    .HasColumnName("Fecha_puesta_producción");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NombreDepartamento)
+                    .HasMaxLength(25)
+                    .IsUnicode(false)
+                    .HasColumnName("nombreDepartamento");
+
+                entity.Property(e => e.NumeroPatente).HasColumnName("Numero_patente");
+
+                entity.Property(e => e.NumeroSerieServidor).HasColumnName("Numero_serie_servidor");
+
+                entity.Property(e => e.Rol)
+                    .HasMaxLength(40)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.TipoSoftware)
                     .HasMaxLength(40)

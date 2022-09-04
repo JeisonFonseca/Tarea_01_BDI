@@ -19,14 +19,8 @@ namespace Tarea_1.Controllers
             return View(await _context.DepartamentoManagerViews.ToListAsync()); // Aqui quiero meter el encargadoDepartamento para mostrarlo en la vista
         }
 
-        public IActionResult Create()
-        {
-            // ViewData["Message"] =
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DepartamentoViewModel model)
         {
             if (ModelState.IsValid)

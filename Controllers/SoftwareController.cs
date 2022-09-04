@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Tarea_1.Models;
+using Tarea_1.Models.ViewModels;
 
 namespace Tarea_1.Controllers
 {
@@ -15,14 +16,48 @@ namespace Tarea_1.Controllers
 
         public async Task <IActionResult> Index()
         {
-            var encargadoDepartamento = _context.ManagerDepartamentos.Include(e=>e.CodigoDepartamento);
-            return View(await _context.Softwares.ToListAsync()); // Aqui quiero meter el encargadoDepartamento para mostrarlo en la vista
+            return View(await _context.SoftwaresViews.ToListAsync());
         }
 
-        public IActionResult Create()
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(SoftwareViewModel model)
         {
-           // ViewData["Message"] =
-            return View();
+            if (ModelState.IsValid)
+            {
+
+                var software = new Software()
+                {
+                    CodigoSoftware = model.CodigoSoftware,
+                    NumeroPatente = model.NumeroPatente,
+                    Nombre = model.Nombre,
+                    Descripción =  model.Descripción,
+                    TipoSoftware = model.TipoSoftware,
+                    FechaPuestaProducción = model.FechaPuestaProducción,
+                    FechaExpiraciónLicencia = model.FechaExpiraciónLicencia
+                };
+
+         
+                var managerSoftware = new ManagerSoftware()
+                {
+                    CodigoSoftware = model.CodigoSoftware,
+                    CodigoDepartamento = model.DepartamentoEncargado
+                };
+
+                var servidor_proyecto = new ServidorProyecto()
+                {
+                    NumeroSerieServidor = model.NumeroSerieServidor,
+                    CodigoSoftware = model.CodigoSoftware,
+                    Rol = model.Rol
+                };
+                
+                _context.Add(software);
+                _context.Add(managerSoftware);
+                _context.Add(servidor_proyecto);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
         }
     }
 }

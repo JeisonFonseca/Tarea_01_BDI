@@ -1,0 +1,65 @@
+﻿@using Tarea_1.Models.ViewModels
+@model ServidorViewModel
+
+<h1>Crear servidor</h1>
+
+<hr/>
+
+<div class="row">
+	<div class="col-md-4">
+		<form asp-action = "Create"> 
+			<div asp-validation-summary="ModelOnly" class = "text-danger"></div>
+
+			<div class="form-group">
+				<label asp-for="NumeroSerie" class= "control-label"> </label>
+				<input asp-for="NumeroSerie" class= "form-control"/> 
+				<span asp-validation-for="NumeroSerie" class = "text-danger"> </span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Marca" class= "control-label"> </label>
+				<input asp-for="Marca" class= "form-control"/> 
+				<span asp-validation-for="Marca" class = "text-danger"> </span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Modelo" class= "control-label"> </label>
+				<input asp-for="Modelo" class= "form-control"/> 
+				<span asp-validation-for="Modelo" class = "text-danger"> </span>
+			</div>
+			<div class="form-group">
+				<label asp-for="FechaCompra" class= "control-label"> </label>
+				<input class="form-control" asp-for="FechaCompra" />
+				<span asp-validation-for="FechaCompra" class = "text-danger"> </span>
+			</div>
+			<div class="form-group">
+				<label> Capacidad procesamiento (GHz)</label>
+			<!--  	<label asp-for="CapacidadProcesamiento" class= "control-label"> </label> -->
+				<input asp-for="CapacidadProcesamiento" class= "form-control"/> 
+				<span asp-validation-for="CapacidadProcesamiento" class = "text-danger"> </span>
+			</div>
+			<div class="form-group">
+				<label> Capacidad de almacenamiento (TB)</label>
+			<!-- 	<label asp-for="CapacidadAlmacenamiento" class= "control-label"> </label> -->
+				<input asp-for="CapacidadAlmacenamiento" class= "form-control"/> 
+				<span asp-validation-for="CapacidadAlmacenamiento" class = "text-danger"> </span>
+			</div>
+			<div class="form-group">
+				<label> Memoria RAM (GB)</label>
+			<!-- 	<label asp-for="MemoriaRam" class= "control-label"> </label> -->
+				<input asp-for="MemoriaRam" class= "form-control"/> 
+				<span asp-validation-for="MemoriaRam" class = "text-danger"> </span>
+			</div>
+			<p>
+
+			</p>
+			<div class="form-group" > 
+				<input type="submit" value="Crear" class= "btn btn-primary"></input>
+			</div>
+		</form>
+	</div>
+</div>
+
+@section Scripts{
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

@@ -1,4 +1,4 @@
-﻿@model List<Tarea_1.Models.Software>
+﻿@model List<Tarea_1.Models.SoftwaresView>
 
 
 <hi>Softwares</hi>
@@ -11,12 +11,14 @@
 	<thead>
 		<tr>
 			<th>Cod del software</th>
-			<th>Numero patente</th>
+			<th>Num patente</th>
 			<th>Nombre</th>
 			<th>Descripcion</th>
-			<th>Tipo del software</th>
-			<th>Fecha puesta en produccion</th>
+			<th>Tipo software</th>
+			<th>Fecha puesta produccion</th>
 			<th>Fecha expiración licencia</th>
+			<th>Servidor</th>
+			<th>Rol</th>
 			<th>Departamento encargado</th>
 		</tr>
 	</thead>
@@ -31,7 +33,11 @@
 				<td>@Html.DisplayFor(m=>software.TipoSoftware)</td>
 				<td>@Html.DisplayFor(m=>software.FechaPuestaProducción)</td>
 				<td>@Html.DisplayFor(m=>software.FechaExpiraciónLicencia)</td>
+				<td>@Html.DisplayFor(m=>software.NumeroSerieServidor)</td>
+				<td>@Html.DisplayFor(m=>software.Rol)</td>
+				<td>@Html.DisplayFor(m=>software.NombreDepartamento)</td>
 			</tr>
 		}
 	</tbody>
-</table>
+</table> 
+

@@ -1,0 +1,36 @@
+﻿@model List<Tarea_1.Models.Servidor>
+
+
+<hi>Servidores</hi>
+
+<p>
+	<a asp-action="Create">Crear</a>
+</p>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Numero de serie</th>
+			<th>Marca</th>
+			<th>Modelo</th>
+			<th>Fecha de compra</th>
+			<th>Capacidad de procesamiento</th>
+			<th>Capacidad de almacenamiento</th>
+			<th>Memoria RAM</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var servidor in Model)
+		{
+			<tr>
+				<td>@Html.DisplayFor(m=>servidor.NumeroSerie)</td>
+				<td>@Html.DisplayFor(m=>servidor.Marca)</td>
+				<td>@Html.DisplayFor(m=>servidor.Modelo)</td>
+				<td>@Html.DisplayFor(m=>servidor.FechaCompra)</td>
+				<td>@Html.DisplayFor(m=>servidor.CapacidadProcesamiento)</td>
+				<td>@Html.DisplayFor(m=>servidor.CapacidadAlmacenamiento)</td>
+				<td>@Html.DisplayFor(m=>servidor.MemoriaRam)</td>
+			</tr>
+		}
+	</tbody>
+</table>
