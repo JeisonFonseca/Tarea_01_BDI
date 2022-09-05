@@ -8,6 +8,7 @@ namespace Tarea_1.Models
         public ErrorDeProducción()
         {
             ProyectoCorrecións = new HashSet<ProyectoCorreción>();
+            ProyectoErrors = new HashSet<ProyectoError>();
         }
 
         public int Identificador { get; set; }
@@ -18,5 +19,6 @@ namespace Tarea_1.Models
 
         public virtual Software SoftwareNavigation { get; set; } = null!;
         public virtual ICollection<ProyectoCorreción> ProyectoCorrecións { get; set; }
+        public virtual ICollection<ProyectoError> ProyectoErrors { get; set; }
     }
 }

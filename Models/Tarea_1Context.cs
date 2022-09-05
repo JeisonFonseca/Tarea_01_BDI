@@ -26,6 +26,7 @@ namespace Tarea_1.Models
         public virtual DbSet<ManagerSoftware> ManagerSoftwares { get; set; } = null!;
         public virtual DbSet<PersonasProyectoView> PersonasProyectoViews { get; set; } = null!;
         public virtual DbSet<ProyectoCorreción> ProyectoCorrecións { get; set; } = null!;
+        public virtual DbSet<ProyectoError> ProyectoErrors { get; set; } = null!;
         public virtual DbSet<Servidor> Servidors { get; set; } = null!;
         public virtual DbSet<ServidorProyecto> ServidorProyectos { get; set; } = null!;
         public virtual DbSet<Software> Softwares { get; set; } = null!;
@@ -307,8 +308,31 @@ namespace Tarea_1.Models
                 entity.HasOne(d => d.ErrorNavigation)
                     .WithMany(p => p.ProyectoCorrecións)
                     .HasForeignKey(d => d.Error)
+                    .HasConstraintName("FK__Proyecto___Error__3864608B");
+            });
+
+            modelBuilder.Entity<ProyectoError>(entity =>
+            {
+                entity.HasKey(e => new { e.Proyecto, e.Error })
+                    .HasName("PK__Proyecto__A739749BAEA1BF01");
+
+                entity.ToTable("Proyecto_Error");
+
+                entity.Property(e => e.Nota)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.ErrorNavigation)
+                    .WithMany(p => p.ProyectoErrors)
+                    .HasForeignKey(d => d.Error)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Proyecto___Error__398D8EEE");
+                    .HasConstraintName("FK__Proyecto___Error__3493CFA7");
+
+                entity.HasOne(d => d.ProyectoNavigation)
+                    .WithMany(p => p.ProyectoErrors)
+                    .HasForeignKey(d => d.Proyecto)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Proyecto___Proye__32AB8735");
             });
 
             modelBuilder.Entity<Servidor>(entity =>
