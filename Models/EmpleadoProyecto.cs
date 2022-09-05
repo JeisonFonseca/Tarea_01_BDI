@@ -7,6 +7,7 @@ namespace Tarea_1.Models
     {
         public string CedulaEmpleado { get; set; } = null!;
         public int NumeroProyecto { get; set; }
+        public int Horas { get; set; }
 
         public virtual Empleado CedulaEmpleadoNavigation { get; set; } = null!;
         public virtual ProyectoCorreción NumeroProyectoNavigation { get; set; } = null!;

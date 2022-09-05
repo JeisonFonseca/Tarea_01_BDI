@@ -7,7 +7,7 @@ namespace Tarea_1.Models
     {
         public ProyectoCorreción()
         {
-            CedulaEmpleados = new HashSet<Empleado>();
+            EmpleadoProyectos = new HashSet<EmpleadoProyecto>();
         }
 
         public int Identificador { get; set; }
@@ -20,7 +20,6 @@ namespace Tarea_1.Models
         public float EsfuerzoReal { get; set; }
 
         public virtual ErrorDeProducción ErrorNavigation { get; set; } = null!;
-
-        public virtual ICollection<Empleado> CedulaEmpleados { get; set; }
+        public virtual ICollection<EmpleadoProyecto> EmpleadoProyectos { get; set; }
     }
 }

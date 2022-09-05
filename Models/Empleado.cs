@@ -7,8 +7,8 @@ namespace Tarea_1.Models
     {
         public Empleado()
         {
+            EmpleadoProyectos = new HashSet<EmpleadoProyecto>();
             ManagerDepartamentos = new HashSet<ManagerDepartamento>();
-            NumeroProyectos = new HashSet<ProyectoCorreción>();
         }
 
         public string Cedula { get; set; } = null!;
@@ -18,8 +18,7 @@ namespace Tarea_1.Models
         public string Rol { get; set; } = null!;
 
         public virtual EmpleadoDepartamento EmpleadoDepartamento { get; set; } = null!;
+        public virtual ICollection<EmpleadoProyecto> EmpleadoProyectos { get; set; }
         public virtual ICollection<ManagerDepartamento> ManagerDepartamentos { get; set; }
-
-        public virtual ICollection<ProyectoCorreción> NumeroProyectos { get; set; }
     }
 }

@@ -1,0 +1,37 @@
+﻿@model List<Tarea_1.Models.PersonasProyectoView>
+
+
+<hi>Personas por proyecto</hi>
+
+<p>
+	<a asp-action="Create">Crear </a>
+</p>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Cédula</th>
+			<th>Nombre</th>
+			<th>Apellido 1</th>
+			<th>Número proyecto</th>
+			<th>Nombre proyecto</th>
+			<th>Horas</th>
+			<th>Rol del empleado</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var personaProyecto in Model)
+		{
+			<tr>
+				<td>@Html.DisplayFor(m=>personaProyecto.Cedula)</td>
+				<td>@Html.DisplayFor(m=>personaProyecto.Nombre)</td>
+				<td>@Html.DisplayFor(m=>personaProyecto.Apellido1)</td>
+				<td>@Html.DisplayFor(m=>personaProyecto.NumeroProyecto)</td>
+				<td>@Html.DisplayFor(m=>personaProyecto.NombreProyecto)</td>
+				<td>@Html.DisplayFor(m=>personaProyecto.Horas)</td>
+				<td>@Html.DisplayFor(m=>personaProyecto.Rol)</td>
+			</tr>
+		}
+	</tbody>
+</table>
+

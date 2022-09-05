@@ -20,9 +20,11 @@ namespace Tarea_1.Models
         public virtual DbSet<DepartamentoManagerView> DepartamentoManagerViews { get; set; } = null!;
         public virtual DbSet<Empleado> Empleados { get; set; } = null!;
         public virtual DbSet<EmpleadoDepartamento> EmpleadoDepartamentos { get; set; } = null!;
+        public virtual DbSet<EmpleadoProyecto> EmpleadoProyectos { get; set; } = null!;
         public virtual DbSet<ErrorDeProducción> ErrorDeProduccións { get; set; } = null!;
         public virtual DbSet<ManagerDepartamento> ManagerDepartamentos { get; set; } = null!;
         public virtual DbSet<ManagerSoftware> ManagerSoftwares { get; set; } = null!;
+        public virtual DbSet<PersonasProyectoView> PersonasProyectoViews { get; set; } = null!;
         public virtual DbSet<ProyectoCorreción> ProyectoCorrecións { get; set; } = null!;
         public virtual DbSet<Servidor> Servidors { get; set; } = null!;
         public virtual DbSet<ServidorProyecto> ServidorProyectos { get; set; } = null!;
@@ -34,7 +36,7 @@ namespace Tarea_1.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=LAPTOP-RIB9CLGL; DataBase=Tarea_#1; Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=LAPTOP-RIB9CLGL; Database=Tarea_#1; Trusted_Connection=True;");
             }
         }
 
@@ -105,23 +107,6 @@ namespace Tarea_1.Models
                 entity.Property(e => e.Rol)
                     .HasMaxLength(25)
                     .IsUnicode(false);
-
-                entity.HasMany(d => d.NumeroProyectos)
-                    .WithMany(p => p.CedulaEmpleados)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "EmpleadoProyecto",
-                        l => l.HasOne<ProyectoCorreción>().WithMany().HasForeignKey("NumeroProyecto").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Empleado___Numer__03F0984C"),
-                        r => r.HasOne<Empleado>().WithMany().HasForeignKey("CedulaEmpleado").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Empleado___Cedul__02FC7413"),
-                        j =>
-                        {
-                            j.HasKey("CedulaEmpleado", "NumeroProyecto").HasName("PK__Empleado__2FAF84CEFE6E6962");
-
-                            j.ToTable("Empleado_proyecto");
-
-                            j.IndexerProperty<string>("CedulaEmpleado").HasMaxLength(10).IsUnicode(false).HasColumnName("Cedula_empleado");
-
-                            j.IndexerProperty<int>("NumeroProyecto").HasColumnName("Numero_proyecto");
-                        });
             });
 
             modelBuilder.Entity<EmpleadoDepartamento>(entity =>
@@ -149,6 +134,33 @@ namespace Tarea_1.Models
                     .HasForeignKey(d => d.CodigoDepartamento)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Empleado___Codig__6C190EBB");
+            });
+
+            modelBuilder.Entity<EmpleadoProyecto>(entity =>
+            {
+                entity.HasKey(e => new { e.CedulaEmpleado, e.NumeroProyecto })
+                    .HasName("PK__Empleado__2FAF84CEFE6E6962");
+
+                entity.ToTable("Empleado_proyecto");
+
+                entity.Property(e => e.CedulaEmpleado)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("Cedula_empleado");
+
+                entity.Property(e => e.NumeroProyecto).HasColumnName("Numero_proyecto");
+
+                entity.HasOne(d => d.CedulaEmpleadoNavigation)
+                    .WithMany(p => p.EmpleadoProyectos)
+                    .HasForeignKey(d => d.CedulaEmpleado)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Empleado___Cedul__02FC7413");
+
+                entity.HasOne(d => d.NumeroProyectoNavigation)
+                    .WithMany(p => p.EmpleadoProyectos)
+                    .HasForeignKey(d => d.NumeroProyecto)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Empleado___Numer__03F0984C");
             });
 
             modelBuilder.Entity<ErrorDeProducción>(entity =>
@@ -232,6 +244,35 @@ namespace Tarea_1.Models
                     .HasForeignKey<ManagerSoftware>(d => d.CodigoSoftware)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Manager_S__Codig__7F2BE32F");
+            });
+
+            modelBuilder.Entity<PersonasProyectoView>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("personasProyectoView");
+
+                entity.Property(e => e.Apellido1)
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Cedula)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NombreProyecto)
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NumeroProyecto).HasColumnName("Numero_proyecto");
+
+                entity.Property(e => e.Rol)
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<ProyectoCorreción>(entity =>
