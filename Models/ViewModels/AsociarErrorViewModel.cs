@@ -1,5 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+/**
+ * ViewModel de asociar error
+ * @params: proyecto 
+ * @params: error
+ * @params: nota
+ */
+
 namespace Tarea_1.Models.ViewModels
 {
     public class AsociarErrorViewModel

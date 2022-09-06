@@ -367,14 +367,12 @@ namespace Tarea_1.Models
 
             modelBuilder.Entity<ServidorProyecto>(entity =>
             {
-                entity.HasKey(e => e.NumeroSerieServidor)
-                    .HasName("PK__Servidor__BA3EF0ABE0E506EF");
+                entity.HasKey(e => new { e.NumeroSerieServidor, e.CodigoSoftware })
+                    .HasName("PK__Servidor__E11741D1D626AD0D");
 
                 entity.ToTable("Servidor_proyecto");
 
-                entity.Property(e => e.NumeroSerieServidor)
-                    .ValueGeneratedNever()
-                    .HasColumnName("Numero_serie_servidor");
+                entity.Property(e => e.NumeroSerieServidor).HasColumnName("Numero_serie_servidor");
 
                 entity.Property(e => e.Rol)
                     .HasMaxLength(40)
@@ -384,13 +382,13 @@ namespace Tarea_1.Models
                     .WithMany(p => p.ServidorProyectos)
                     .HasForeignKey(d => d.CodigoSoftware)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Servidor___Codig__08B54D69");
+                    .HasConstraintName("FK__Servidor___Codig__3D2915A8");
 
                 entity.HasOne(d => d.NumeroSerieServidorNavigation)
-                    .WithOne(p => p.ServidorProyecto)
-                    .HasForeignKey<ServidorProyecto>(d => d.NumeroSerieServidor)
+                    .WithMany(p => p.ServidorProyectos)
+                    .HasForeignKey(d => d.NumeroSerieServidor)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Servidor___Numer__06CD04F7");
+                    .HasConstraintName("FK__Servidor___Numer__3B40CD36");
             });
 
             modelBuilder.Entity<Software>(entity =>

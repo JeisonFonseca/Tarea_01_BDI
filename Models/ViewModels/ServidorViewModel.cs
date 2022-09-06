@@ -1,5 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+/**
+ * ViewModel de empleado
+ * @params: NumeroSerie 
+ * @params: Marca
+ * @params: Modelo
+ * @params: FechaCompra
+ * @params: CapacidadProcesamiento
+ * @params: CapacidadAlmacenamiento
+ * @params: MemoriaRam
+ * */
 namespace Tarea_1.Models.ViewModels
 {
     public class ServidorViewModel

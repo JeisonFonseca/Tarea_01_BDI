@@ -1,5 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+/**
+ * ViewModel de empleado
+ * @params: CodigoSoftware 
+ * @params: NumeroPatente
+ * @params: Nombre
+ * @params: Descripción
+ * @params: TipoSoftware
+ * @params: FechaPuestaProducción
+ * @params: FechaExpiraciónLicencia
+ * @params: DepartamentoEncargado
+ * @params: NumeroSerieServidor
+ * @params: Rol
+ * */
 namespace Tarea_1.Models.ViewModels
 {
     public class SoftwareViewModel

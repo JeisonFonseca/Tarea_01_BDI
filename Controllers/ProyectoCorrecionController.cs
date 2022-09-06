@@ -14,13 +14,17 @@ namespace Tarea_1.Controllers
             _context = context;
         }
 
+        /**
+          * Funcion encargada de mostrar los proyectos de correccion
+          */
         public async Task<IActionResult> Index()
         {
             return View(await _context.ProyectoCorrecións.ToListAsync());
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
+        /**
+         * Funcion encargada de crear los proyectos de correccion
+         */
         public async Task<IActionResult> Create(ProyectoCorrecionViewModel model)
         {
             if (ModelState.IsValid)

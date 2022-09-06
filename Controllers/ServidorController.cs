@@ -14,13 +14,17 @@ namespace Tarea_1.Controllers
             _context = context;
         }
 
+        /**
+         * Funcion encargada de mostrar los servidores
+         */
         public async Task<IActionResult> Index()
         {
             return View(await _context.Servidors.ToListAsync()); // Aqui quiero meter el encargadoDepartamento para mostrarlo en la vista
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
+        /**
+         * Funcion encargada de crear los servidores
+         */
         public async Task<IActionResult> Create(ServidorViewModel model)
         {
             if (ModelState.IsValid)

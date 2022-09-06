@@ -14,13 +14,17 @@ namespace Tarea_1.Controllers
             _context = context;
         }
 
+        /**
+         * Funcion encargada de mostrar los software
+         */
         public async Task <IActionResult> Index()
         {
             return View(await _context.SoftwaresViews.ToListAsync());
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
+        /**
+         * Funcion encargada de crear los software
+         */
         public async Task<IActionResult> Create(SoftwareViewModel model)
         {
             if (ModelState.IsValid)

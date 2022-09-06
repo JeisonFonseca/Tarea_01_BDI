@@ -14,13 +14,17 @@ namespace Tarea_1.Controllers
             _context = context;
         }
 
+        /**
+         * Funcion encargada de mostrar la informacion de los departamentos
+         */
 		public async Task<IActionResult> Index()
         {
             return View(await _context.DepartamentoManagerViews.ToListAsync()); // Aqui quiero meter el encargadoDepartamento para mostrarlo en la vista
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
+        /**
+          * Funcion encargada de crear los departamentos
+         */
         public async Task<IActionResult> Create(DepartamentoViewModel model)
         {
             if (ModelState.IsValid)
@@ -41,7 +45,6 @@ namespace Tarea_1.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            // ViewData["Message"] =
             return View(model);
         }
 

@@ -14,13 +14,17 @@ namespace Tarea_1.Controllers
             _context = context;
         }
 
+        /**
+         * Funcion encargada de mostrar los errores de produccion
+         */
         public async Task<IActionResult> Index()
         {
             return View(await _context.ErrorDeProduccións.ToListAsync());
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
+        /**
+         * Funcion encargada de crear los errores de produccion
+         */
         public async Task<IActionResult> Create(ErrorProduccionViewModel model)
         {
             if (ModelState.IsValid)

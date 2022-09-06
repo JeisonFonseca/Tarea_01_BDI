@@ -14,14 +14,18 @@ namespace Tarea_1.Controllers
             _context = context;
         }
 
+        /**
+         * Funcion encargada de mostrar la informacion de los Empleados en proyectos
+         */
         public async Task<IActionResult> Index()
         {
             return View(await _context.PersonasProyectoViews.ToListAsync()); // Aqui quiero meter el encargadoDepartamento para mostrarlo en la vista
         }
 
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
+        /**
+         * Funcion encargada de asociar los Empleados en proyectos
+         */
         public async Task<IActionResult> Create(EmpleadoProyectoViewModel model)
         {
             if (ModelState.IsValid)

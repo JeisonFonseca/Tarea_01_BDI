@@ -1,5 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+/**
+ * ViewModel de empleado
+ * @params: Identificador 
+ * @params: Software
+ * @params: Descripcion
+ * @params: FechaHora
+ * @params: Impacto
+ * */
 namespace Tarea_1.Models.ViewModels
 {
     public class ErrorProduccionViewModel

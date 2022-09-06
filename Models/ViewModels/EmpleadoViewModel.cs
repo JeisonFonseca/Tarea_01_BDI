@@ -1,5 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+/**
+ * ViewModel de empleado
+ * @params: Cedula 
+ * @params: Nombre
+ * @params: Apellido1
+ * @params: Apellido2
+ * @params: Rol
+ * */
 namespace Tarea_1.Models.ViewModels
 {
     public class EmpleadoViewModel

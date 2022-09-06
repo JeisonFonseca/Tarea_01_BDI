@@ -5,6 +5,11 @@ namespace Tarea_1.Models
 {
     public partial class Servidor
     {
+        public Servidor()
+        {
+            ServidorProyectos = new HashSet<ServidorProyecto>();
+        }
+
         public int NumeroSerie { get; set; }
         public string Marca { get; set; } = null!;
         public string Modelo { get; set; } = null!;
@@ -13,6 +18,6 @@ namespace Tarea_1.Models
         public int CapacidadAlmacenamiento { get; set; }
         public int MemoriaRam { get; set; }
 
-        public virtual ServidorProyecto ServidorProyecto { get; set; } = null!;
+        public virtual ICollection<ServidorProyecto> ServidorProyectos { get; set; }
     }
 }
